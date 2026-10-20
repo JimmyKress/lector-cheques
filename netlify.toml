@@ -1,18 +1,9 @@
 [build]
-  # Directorio raíz del proyecto
-  base = "/"
-  
-  # No necesitamos comando de build porque es HTML estático
-  command = ""
-  
-  # Directorio que se publica
-  publish = "."
-  
-  # Directorio de las funciones serverless
   functions = "netlify/functions"
+  publish = "."
 
-# Redirigir llamadas a /api/* hacia las funciones
 [[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/:splat"
   status = 200
+  force = true
