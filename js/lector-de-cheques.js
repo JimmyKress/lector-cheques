@@ -638,8 +638,8 @@
       return JSON.parse(jsonMatch[0]);
       
     } else {
-      // Modo NETLIFY: llamar a la función serverless
-      var response = await fetch('https://unib-lector-de-cheques.netlify.app/api/analizar-cheque', {
+      // Modo NETLIFY: llamar a la función serverless (URL relativa)
+      var response = await fetch('/api/analizar-cheque', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
