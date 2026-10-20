@@ -638,8 +638,8 @@
       return JSON.parse(jsonMatch[0]);
       
     } else {
-      // Modo NETLIFY: llamar a la función serverless (URL relativa)
-      var response = await fetch('/api/analizar-cheque', {
+      // Modo NETLIFY: llamar a la función serverless directamente
+      var response = await fetch('/.netlify/functions/analizar-cheque', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
