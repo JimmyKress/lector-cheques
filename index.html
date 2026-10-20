@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Login - Lector de Cheques ELS</title>
+  <link rel="stylesheet" href="css/lector-de-cheques.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="js/config.js"></script>
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    main {
+      width: 100%;
+      max-width: 400px;
+    }
+    .password-wrapper {
+      position: relative;
+    }
+    .password-wrapper input {
+      padding-right: 40px;
+    }
+    .toggle-password {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--muted);
+      padding: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .toggle-password:hover {
+      color: var(--fg);
+    }
+    .error-message {
+      background: var(--bad-soft);
+      color: var(--bad);
+      padding: 12px 14px;
+      border-radius: 4px;
+      font-size: 13px;
+      display: none;
+      margin-top: 8px;
+      border: 1px solid var(--bad);
+    }
+    .error-message.show {
+      display: block;
+      animation: shake 0.5s ease-in-out;
+    }
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-8px); }
+      75% { transform: translateX(8px); }
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>Lector de Cheques ELS</h1>
+        <p class="sub">Iniciá sesión para acceder al sistema</p>
+      </div>
+    </header>
+
+    <section class="panel">
+      <h2 style="text-align: center;">Iniciar Sesión</h2>
+      <form action="html/lector-de-cheques.html" method="post" style="padding: 24px 20px; display: flex; flex-direction: column; gap: 16px;">
+        
+        <div>
+          <label for="name" style="display: block; margin-bottom: 6px; color: var(--muted);">Nombre y apellido</label>
+          <input type="text" id="name" name="user_name" style="width: 100%;" />
+        </div>
+
+        <div>
+          <label for="mail" style="display: block; margin-bottom: 6px; color: var(--muted);">Contraseña</label>
+          <div class="password-wrapper">
+            <input type="password" id="mail" name="user_mail" style="width: 100%;" />
+            <button type="button" class="toggle-password" id="togglePassword">
+              <i data-lucide="eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="error-message" id="errorMessage">
+          <strong>⚠️ Credenciales incorrectas</strong><br>
+          Por favor, verificá tu nombre y contraseña.
+        </div>
+
+        <div class="row" style="justify-content: center;">
+          <button type="submit" class="btn primary" style="width: 100%;">Ingresar</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script>
+    lucide.createIcons();
+    
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordInput = document.getElementById('mail');
+    
+    togglePassword.addEventListener('click', function() {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
+      
+      const icon = this.querySelector('i');
+      if (type === 'text') {
+        icon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        icon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    });
+
+    // Validación de formulario
+    const form = document.querySelector('form');
+    const errorMessage = document.getElementById('errorMessage');
+    const nameInput = document.getElementById('name');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const username = nameInput.value.trim();
+      const password = passwordInput.value;
+
+      if (username === ENV.AUTH_USERNAME && password === ENV.AUTH_PASSWORD) {
+        // Credenciales correctas - redirigir
+        window.location.href = 'html/lector-de-cheques.html';
+      } else {
+        // Credenciales incorrectas - mostrar error
+        errorMessage.classList.add('show');
+        
+        // Ocultar error después de 4 segundos
+        setTimeout(() => {
+          errorMessage.classList.remove('show');
+        }, 4000);
+      }
+    });
+  </script>
+</body>
+</html>

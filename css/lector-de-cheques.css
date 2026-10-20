@@ -1,0 +1,466 @@
+:root {
+  color-scheme: light;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+html {
+  scroll-padding-top: env(safe-area-inset-top, 0px);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font: 14px -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #fff;
+  color: #000;
+}
+
+img {
+  max-width: 100%;
+}
+
+[hidden]:not([hidden="until-found" i]) {
+  display: none !important;
+}
+
+/* Layout: una columna de trabajo. Arriba cliente y usuario, la zona para soltar fotos,
+   y abajo la tabla editable con totales y las dos salidas (Excel / copiar). */
+
+:root {
+  --bg: #f3f5f6;
+  --surface: #ffffff;
+  --fg: #1b2428;
+  --muted: #5d6b72;
+  --line: #d5dde0;
+  --accent: #0b6b5f;
+  --accent-fg: #ffffff;
+  --accent-soft: #e1f0ed;
+  --warn: #8a5a00;
+  --warn-soft: #fbf0d9;
+  --bad: #a3262b;
+  --bad-soft: #f9e3e4;
+  --f-sans: "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12181b;
+    --surface: #1a2226;
+    --fg: #e6ecee;
+    --muted: #93a2a9;
+    --line: #2d3a40;
+    --accent: #43b8a6;
+    --accent-fg: #0a1513;
+    --accent-soft: #17312d;
+    --warn: #e5b455;
+    --warn-soft: #33290f;
+    --bad: #f08a8e;
+    --bad-soft: #3a1c1e;
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #12181b;
+  --surface: #1a2226;
+  --fg: #e6ecee;
+  --muted: #93a2a9;
+  --line: #2d3a40;
+  --accent: #43b8a6;
+  --accent-fg: #0a1513;
+  --accent-soft: #17312d;
+  --warn: #e5b455;
+  --warn-soft: #33290f;
+  --bad: #f08a8e;
+  --bad-soft: #3a1c1e;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font: 14px/1.5 var(--f-sans);
+  padding-block: 24px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+main {
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+h1 {
+  font-size: 22px;
+  line-height: 1.2;
+  margin: 0;
+  font-weight: 600;
+  text-wrap: balance;
+}
+
+.sub {
+  color: var(--muted);
+  margin: 4px 0 0;
+  max-width: 68ch;
+}
+
+header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 24px;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.who {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 20px;
+}
+
+.who label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+}
+
+.who #usuario {
+  width: 64px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.who #cliente {
+  width: 180px;
+  text-transform: uppercase;
+}
+
+input,
+button {
+  font: inherit;
+  color: inherit;
+}
+
+input[type="text"],
+input[type="date"] {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 6px 8px;
+  min-width: 0;
+}
+
+input:focus-visible,
+button:focus-visible,
+.drop:focus-within {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+/* Zona de drop de fotos */
+.drop {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  text-align: center;
+  border: 2px dashed var(--line);
+  border-radius: 6px;
+  background: var(--surface);
+  padding: 28px 16px;
+  cursor: pointer;
+}
+
+.drop.over {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.drop strong {
+  font-weight: 600;
+}
+
+.drop span {
+  color: var(--muted);
+}
+
+.drop input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+/* Botones */
+.btn {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 4px;
+  padding: 7px 14px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-fg);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Lista de archivos pendientes */
+.files {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.files li {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 6px 10px;
+}
+
+.files img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 3px;
+  flex: none;
+}
+
+.files .nm {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tag {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  white-space: nowrap;
+}
+
+.tag.warn {
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+.tag.bad {
+  background: var(--bad-soft);
+  color: var(--bad);
+}
+
+/* Panel de la tabla */
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  min-width: 0;
+}
+
+.panel > h2 {
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin: 0;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  font-weight: 600;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+}
+
+.scroll {
+  overflow-x: auto;
+}
+
+/* Tabla de cheques */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 1280px;
+  font-variant-numeric: tabular-nums;
+}
+
+th {
+  font-size: 12px;
+  text-align: left;
+  color: var(--muted);
+  font-weight: 600;
+  padding: 8px 8px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+
+th.r {
+  text-align: right;
+}
+
+td {
+  padding: 5px 6px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+}
+
+td input[type="text"],
+td input[type="date"] {
+  width: 100%;
+}
+
+td.num input {
+  text-align: right;
+  font-family: var(--f-mono);
+  min-width: 120px;
+}
+
+td.c-nro input {
+  font-family: var(--f-mono);
+  min-width: 104px;
+}
+
+td.c-fecha input {
+  min-width: 128px;
+}
+
+td.c-banco input {
+  min-width: 96px;
+}
+
+td.c-nombre input {
+  min-width: 210px;
+}
+
+td.c-cuit input {
+  min-width: 122px;
+}
+
+td.c-aut input {
+  min-width: 84px;
+}
+
+td.c-rech input {
+  min-width: 140px;
+}
+
+td.calc {
+  font-family: var(--f-mono);
+  text-align: right;
+  white-space: nowrap;
+  padding-inline: 8px;
+}
+
+td.user {
+  font-family: var(--f-mono);
+  white-space: nowrap;
+  padding-inline: 8px;
+}
+
+td.x {
+  width: 34px;
+  text-align: center;
+}
+
+.x button {
+  border: 0;
+  background: none;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 18px;
+  line-height: 1;
+  padding: 4px 8px;
+}
+
+.x button:hover {
+  color: var(--bad);
+}
+
+tfoot td {
+  font-weight: 600;
+  border-bottom: 0;
+  background: var(--bg);
+}
+
+.note {
+  padding: 6px 14px 10px;
+  color: var(--warn);
+  font-size: 13px;
+}
+
+.empty {
+  padding: 28px 14px;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Resumen inferior */
+.summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 28px;
+  padding: 12px 14px;
+  border-top: 1px solid var(--line);
+}
+
+.summary div {
+  display: flex;
+  flex-direction: column;
+}
+
+.summary small {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.summary b {
+  font-family: var(--f-mono);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+.msg {
+  min-height: 20px;
+  color: var(--muted);
+}

@@ -1,0 +1,9 @@
+# Dependencias
+node_modules/
+
+# Archivos temporales
+*.log
+.DS_Store
+
+# Archivos de prueba
+test-ocr.html

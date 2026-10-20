@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Lector de Cheques ELS</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+  <link rel="stylesheet" href="../css/lector-de-cheques.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+
+<main>
+  <header>
+    <div>
+      <h1>Lector de Cheques ELS</h1>
+      <p class="sub">Soltá las fotos de los cheques. El sistema lee fecha de cobro, importe, banco, número, firmante y CUIT, y arma la tabla lista para tu Excel de numerales.</p>
+    </div>
+    <div class="who">
+      <label for="cliente">Cliente <input id="cliente" type="text" maxlength="40" value="EL ABASTO"></label>
+      <label for="usuario">Usuario <input id="usuario" type="text" maxlength="6" value="SC"></label>
+    </div>
+  </header>
+
+  <label class="drop" id="drop">
+    <input id="file" type="file" accept="image/*" multiple>
+    <strong>Arrastrá las fotos acá o tocá para elegirlas</strong>
+    <span id="dropHint">Puede haber varios cheques en una misma foto.</span>
+  </label>
+
+  <div class="row" id="actions" hidden>
+    <button class="btn primary" id="go">Leer cheques</button>
+    <button class="btn" id="vaciarfotos">Vaciar fotos</button>
+    <button class="btn" id="stop" hidden>Detener</button>
+    <button class="btn" id="clean" hidden>Quitar las que dieron error</button>
+    <span class="msg" id="msg" role="status"></span>
+  </div>
+  <ul class="files" id="files"></ul>
+
+  <section class="panel">
+    <h2><span>Cheques cargados</span><span class="row">
+      <button class="btn" id="add">Agregar fila</button>
+      <button class="btn" id="clear">Vaciar</button></span></h2>
+    <div class="scroll"><table>
+      <thead><tr>
+        <th>Fecha de Vto Cheque</th><th>Importe</th><th>Banco</th><th>Nro de Cheque</th>
+        <th>Nombre Firma</th><th>CUIT</th>
+        <th class="r">Días</th><th class="r">Numerales</th>
+        <th>Autorización</th><th>Motivo Rechazo</th><th>Usuario</th><th></th></tr></thead>
+      <tbody id="rows"></tbody>
+      <tfoot id="foot"></tfoot>
+    </table></div>
+    <div id="notes"></div>
+    <div class="summary" id="summary"></div>
+  </section>
+
+  <div class="row">
+    <button class="btn primary" id="dl">Descargar Excel</button>
+    <button class="btn" id="copy">Copiar columnas A a F</button>
+    <span class="msg" id="msg2" role="status"></span>
+  </div>
+  <p class="sub">El Excel descargado es tu planilla NUMERALES_ELS con el mismo formato: los cheques quedan en las filas 4 a 13 (hasta 10), el cliente en C1 y el usuario en la columna K. Días, numerales, total y promedio se calculan con fórmulas desde la fecha de hoy. «Copiar columnas A a F» pega fecha, importe, banco, número, firmante y CUIT en tu planilla desde A4 sin pisar las fórmulas.</p>
+</main>
+
+  <script src="../js/lector-de-cheques.js"></script>
+</body>
+</html>
