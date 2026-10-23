@@ -37,15 +37,15 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // La API key viene de las variables de entorno de Netlify (configuradas en el dashboard)
-    const apiKey = process.env.GEMINI_API_KEY;
+    // La API key viene de las variables de entorno de Netlify
+    const apiKey = process.env.API_KEY;
     console.log('API Key presente:', !!apiKey);
     console.log('API Key length:', apiKey ? apiKey.length : 0);
 
     if (!apiKey) {
       return {
         statusCode: 500,
-        body: JSON.stringify({ error: 'API key no configurada en Netlify' })
+        body: JSON.stringify({ error: 'API_KEY no configurada en Netlify' })
       };
     }
 

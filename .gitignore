@@ -7,3 +7,6 @@ node_modules/
 
 # Archivos de prueba
 test-ocr.html
+
+# Variables de entorno (contiene API keys - NO SUBIR)
+.env
