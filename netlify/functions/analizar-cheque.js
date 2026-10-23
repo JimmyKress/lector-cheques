@@ -16,6 +16,8 @@ Reglas:
 - Si un dato no se lee con claridad, ponelo en null y explicalo en advertencia. No inventes datos.`;
 
 exports.handler = async (event, context) => {
+  console.log('Función llamada - método:', event.httpMethod);
+  
   // Solo permitir POST
   if (event.httpMethod !== 'POST') {
     return {
@@ -37,6 +39,8 @@ exports.handler = async (event, context) => {
 
     // La API key viene de las variables de entorno de Netlify (configuradas en el dashboard)
     const apiKey = process.env.GEMINI_API_KEY;
+    console.log('API Key presente:', !!apiKey);
+    console.log('API Key length:', apiKey ? apiKey.length : 0);
 
     if (!apiKey) {
       return {
