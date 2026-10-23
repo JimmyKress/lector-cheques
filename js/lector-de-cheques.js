@@ -639,7 +639,7 @@
       
     } else {
       // Modo NETLIFY: llamar a la función serverless directamente
-      var response = await fetch('/.netlify/functions/analizar-cheque-v2', {
+      var response = await fetch('/.netlify/functions/cheque-ocr', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
